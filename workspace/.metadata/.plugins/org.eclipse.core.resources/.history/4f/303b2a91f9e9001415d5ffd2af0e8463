@@ -1,0 +1,7 @@
+
+public class Tweet {
+	String university; 
+	Double latitude; 
+	Double longitude; 
+	String content; 
+}

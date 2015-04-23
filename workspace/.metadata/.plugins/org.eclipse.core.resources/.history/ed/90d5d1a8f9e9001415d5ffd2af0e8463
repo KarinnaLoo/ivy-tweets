@@ -1,0 +1,20 @@
+public class Tweet {
+	String university;
+	Double latitude;
+	Double longitude;
+	String content;
+
+	public void setLatitude(double lat) {
+		this.latitude = lat;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public void chooseUniversity(double lat, double longitude) {
+
+	}
+	
+	
+}

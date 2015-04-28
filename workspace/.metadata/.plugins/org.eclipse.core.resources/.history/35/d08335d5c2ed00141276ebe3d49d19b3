@@ -1,0 +1,32 @@
+
+public class IvyTweetAnalyzer {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	void setUpTweetCampuses() { 
+		//find closest state to tweet latitude and longitude
+		state closestState = null;
+		for (tweet t: tweets) {
+			double distance = Double.MAX_VALUE;
+			for (state s: states) {
+				double trialDistance = Math.sqrt(Math.pow(t.latitude-
+						s.latitude, 2) + Math.pow(t.longitude-s.longitude, 2));
+				if (trialDistance < distance) { 
+					distance = trialDistance; 
+					closestState = s; 
+				}
+			}
+			if (closestState != null) {
+				//add state information to tweet object
+				t.state = closestState; 
+				//add tweet count to state
+				closestState.numberOfTweets++; 
+			}
+
+		}
+	}
+
+}

@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class LocationReader {
+
+	private static ArrayList<Campus> campuses = new ArrayList<Campus>();
+
+	// read in campuses.csv and create state objects
+	public ArrayList<Campus> setUpCampuses(String filename) {
+		try {
+			BufferedReader campusReader = new BufferedReader(new FileReader(
+					filename));
+			String line = ""; // placeholder to prevent null pointer
+			try {
+				while ((line = campusReader.readLine()) != null) {
+					// csv means comma-separated; split by commas
+					String[] campus = line.split(",");
+					Campus temp = new Campus(campus[0],
+							Double.parseDouble(campus[1]),
+							Double.parseDouble(campus[2]));
+					campuses.add(temp);
+				}
+				campusReader.close();
+			} catch (IOException e) {
+				System.exit(0);
+			}
+		} catch (FileNotFoundException e) {
+			System.exit(0);
+		}
+		return campuses; 
+	}
+
+}

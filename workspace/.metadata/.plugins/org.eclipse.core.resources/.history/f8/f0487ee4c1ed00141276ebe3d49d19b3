@@ -1,0 +1,30 @@
+
+import java.util.HashMap;
+
+public class Campus {
+	String name; 
+	int numberOfTweets;  
+	HashMap<String, Integer> mostPopularHashtags; 
+	double latitude; 
+	double longitude; 
+
+	public state(String name, double latitude, double longitude) {
+		this.name = name; 
+		this.latitude = latitude; 
+		this.longitude = longitude; 
+		numberOfTweets = 0; 
+		mostPopularHashtags = new HashMap<String, Integer>();  
+	}
+	
+	public void updateHashtags(String hashtag) {
+		if (mostPopularHashtags.containsKey(hashtag)) {
+			int temp = mostPopularHashtags.get(hashtag);
+			mostPopularHashtags.remove(hashtag); 
+			mostPopularHashtags.put(hashtag, temp + 1);
+		}
+		else { 
+			mostPopularHashtags.put(hashtag, 1);
+		}
+	}
+
+}

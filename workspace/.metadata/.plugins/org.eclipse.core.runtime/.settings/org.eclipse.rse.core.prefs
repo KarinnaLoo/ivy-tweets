@@ -1,2 +1,4 @@
+activeuserprofiles=Team;drl;kate
 eclipse.preferences.version=1
 org.eclipse.rse.systemtype.local.systemType.defaultUserId=kate
+useridperkey=kate.Local\=kate;

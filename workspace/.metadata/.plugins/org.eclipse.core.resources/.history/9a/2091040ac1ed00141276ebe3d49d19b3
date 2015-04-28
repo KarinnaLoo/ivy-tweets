@@ -1,0 +1,91 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class TweetParser {
+	static ArrayList<Tweet> tweets = new ArrayList<Tweet>(); 
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		readTweets("300k_tweets.txt"); 
+	}
+	
+	
+	public static void readTweets(String filename) {
+		// structure of data is: content, time, location
+		JSONParser parser = new JSONParser();
+		BufferedReader tweetReader;
+		try {
+			tweetReader = new BufferedReader(new FileReader(
+					filename));
+			String line = ""; 
+			try {
+				while ((line = tweetReader.readLine()) != null) {
+					JSONObject obj; 
+					try {
+						obj = (JSONObject)parser.parse(line);
+						String content = (String)obj.get("text"); // use key as argument
+						String timeData = (String)obj.get("time");
+						String[] time = timeData.split(" "); 
+						String[] date = time[0].split("-");
+						int year = Integer.parseInt(date[0]);
+						int month = Integer.parseInt(date[1]);
+						int day = Integer.parseInt(date[2]);
+						int hour = Integer.parseInt(time[1].split(":")[0]);
+						List location = (List) obj.get("location");
+						//String[] coordinates = location.split(",");
+						double latitude = (Double) location.get(0);
+						double longitude = (Double) location.get(1); 
+						Tweet newTweet = new Tweet(latitude, longitude, content);
+						tweets.add(newTweet);
+					} catch (ParseException e) {
+						System.exit(0);
+					}
+				}
+			} catch (IOException e1) {
+				System.out.println("An IO error has occurred.");
+			}
+		} catch (FileNotFoundException e2) {
+			System.out.println("Could not locate the specified input file.");
+		}
+	}
+	
+	//read in states.csv and create state objects
+		public void setUpStates(String filename) {
+			try {
+				BufferedReader statesReader = new BufferedReader(new FileReader(
+						filename));
+				String line = ""; // placeholder to prevent null pointer
+				try {
+					while ((line = statesReader.readLine()) != null) {
+						//csv means comma-separated; split by commas
+						String[] state = line.split(",");
+						state temp = new state(state[0], Double.parseDouble(state[1]), 
+								Double.parseDouble(state[2]));
+						states.add(temp);
+					}
+					statesReader.close();
+				} catch (IOException e) {
+					System.exit(0);
+				}
+			} catch (FileNotFoundException e) {
+				if (screenLogger != null) {
+					screenLogger.logToBoth("The states.csv file is invalid.");
+					System.exit(0);
+				}
+			}
+		}
+
+		public Processor establishProcessor() {
+			return new Processor(tweets, states); 
+		}
+}
+
+}

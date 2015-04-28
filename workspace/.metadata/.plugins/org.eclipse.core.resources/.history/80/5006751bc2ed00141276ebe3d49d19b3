@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+
+
+public class LocationReader {
+	
+	private static ArrayList<Campus> campuses = new ArrayList<Campus>();
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	//read in states.csv and create state objects
+	public void setUpCampuses(String filename) {
+		try {
+			BufferedReader statesReader = new BufferedReader(new FileReader(
+					filename));
+			String line = ""; // placeholder to prevent null pointer
+			try {
+				while ((line = statesReader.readLine()) != null) {
+					//csv means comma-separated; split by commas
+					String[] campus = line.split(",");
+					Campus temp = new Campus(campus[0], Double.parseDouble(campus[1]), 
+							Double.parseDouble(campus[2]));
+					states.add(temp);
+				}
+				statesReader.close();
+			} catch (IOException e) {
+				if (screenLogger != null) {
+					screenLogger.logToBoth("The states.csv file gave an IOException.");
+					System.exit(0);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			if (screenLogger != null) {
+				screenLogger.logToBoth("The states.csv file is invalid.");
+				System.exit(0);
+			}
+		}
+	}
+
+}
